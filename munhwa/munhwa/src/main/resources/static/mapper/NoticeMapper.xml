@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+   PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.project.munhwa.NoticeMapper">
+	<resultMap type="com.project.munhwa.notice.Notice" id="Notice">
+		<result property="artcl_Seq"       	column="artcl_Seq"/>
+		<result property="title"       		column="title"/>
+		<result property="writer"       	column="writer"/>
+		<result property="reg_date"       	column="reg_date"/>
+		<result property="edit_date"       	column="edit_date"/>
+		<result property="hit"       		column="hit"/>
+		<result property="img_Origin_Nm"    column="img_Origin_Nm"/>
+		<result property="img_File_Nm"      column="img_File_Nm"/>
+		<result property="img_Path"       	column="img_Path"/>
+	</resultMap>
+		
+		
+	<!-- 공지사항 등록 -->
+   	<insert id="insertNotice" parameterType="com.project.munhwa.notice.Notice">
+        INSERT INTO munhwa_notice_artcl
+        VALUES (#{artcl_Seq}, #{title}, #{writer}, timestamp(), timestamp(), 0,
+        	<choose>
+        		<when test="img_Origin_Nm == null || img_Origin_Nm == ''">
+        			null, null, null
+        		</when>
+        		<otherwise>
+        			#{img_Origin_Nm}, #{img_File_Nm}, #{img_Path}
+        		</otherwise>
+        	</choose>
+         )
+   	</insert>
+</mapper>
